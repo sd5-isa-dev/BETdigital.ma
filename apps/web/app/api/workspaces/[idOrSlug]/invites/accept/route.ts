@@ -1,45 +1,27 @@
 import { DubApiError } from "@/lib/api/errors";
-import { assertRoleAllowedForPlan } from "@/lib/api/workspaces/assert-role-plan";
-import { onboardingStepCache } from "@/lib/api/workspaces/onboarding-step-cache";
 import { withSession } from "@/lib/auth";
-import { exceededLimitError } from "@/lib/exceeded-limit-error";
 import { prisma } from "@/lib/prisma";
-import { PlanProps } from "@/lib/types";
 import { NextResponse } from "next/server";
 
-// POST /api/workspaces/[idOrSlug]/invites/accept – accept a workspace invite
+// POST /api/workspaces/[idOrSlug]/invites/accept
 export const POST = withSession(async ({ session, params }) => {
   const { idOrSlug: slug } = params;
 
   const invite = await prisma.projectInvite.findFirst({
-    where: {
-      email: session.user.email,
-      project: {
-        slug,
-      },
-    },
+    where: { email: session.user.email, project: { slug } },
   });
 
   if (!invite) {
-    throw new DubApiError({
-      code: "not_found",
-      message: "This invite is not found.",
-    });
+    throw new DubApiError({ code: "not_found", message: "This invite is not found." });
   }
 
   if (invite.expires < new Date()) {
-    throw new DubApiError({
-      code: "invite_expired",
-      message: "This invite has expired.",
-    });
+    throw new DubApiError({ code: "invite_expired", message: "This invite has expired." });
   }
 
   const workspace = await prisma.$transaction(async (tx) => {
     const existingMembership = await tx.projectUsers.findFirst({
-      where: {
-        userId: session.user.id,
-        projectId: invite.projectId,
-      },
+      where: { userId: session.user.id, projectId: invite.projectId },
     });
 
     if (existingMembership) {
@@ -50,42 +32,8 @@ export const POST = withSession(async ({ session, params }) => {
     }
 
     const workspace = await tx.project.findUniqueOrThrow({
-      where: {
-        id: invite.projectId,
-      },
-      select: {
-        id: true,
-        slug: true,
-        plan: true,
-        usersLimit: true,
-        _count: {
-          select: {
-            users: {
-              where: {
-                user: {
-                  isMachine: false,
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (workspace._count.users >= workspace.usersLimit) {
-      throw new DubApiError({
-        code: "exceeded_limit",
-        message: exceededLimitError({
-          plan: workspace.plan as PlanProps,
-          limit: workspace.usersLimit,
-          type: "users",
-        }),
-      });
-    }
-
-    assertRoleAllowedForPlan({
-      role: invite.role,
-      plan: workspace.plan,
+      where: { id: invite.projectId },
+      select: { id: true, slug: true },
     });
 
     await tx.projectUsers.create({
@@ -93,41 +41,22 @@ export const POST = withSession(async ({ session, params }) => {
         userId: session.user.id,
         role: invite.role,
         projectId: workspace.id,
-        notificationPreference: {
-          create: {}, // by default, users are opted in to all notifications
-        },
       },
     });
 
-    // Delete invite inside transaction to ensure consistency
     await tx.projectInvite.delete({
-      where: {
-        email_projectId: {
-          email: session.user.email,
-          projectId: workspace.id,
-        },
-      },
+      where: { email_projectId: { email: session.user.email, projectId: workspace.id } },
     });
 
     return workspace;
   });
 
-  // Update default workspace
   if (!session.user.defaultWorkspace) {
     await prisma.user.update({
-      where: {
-        id: session.user.id,
-      },
-      data: {
-        defaultWorkspace: workspace.slug,
-      },
+      where: { id: session.user.id },
+      data: { defaultWorkspace: workspace.slug },
     });
   }
-
-  await onboardingStepCache.set({
-    userId: session.user.id,
-    step: "completed",
-  });
 
   return NextResponse.json({ message: "Invite accepted." });
 });
