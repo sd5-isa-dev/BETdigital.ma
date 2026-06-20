@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -38,6 +38,13 @@ model Session {
   @@index([userId])
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
 
 model User {
   id            String    @id @default(cuid())
@@ -58,30 +65,9 @@ model User {
   source   String?
   sentMail Boolean @default(false)
 
-  accounts                Account[]
-  sessions                Session[]
-  notificationPreferences UserNotificationPreferences?
-  projects                ProjectUsers[]
-  partners                PartnerUser[]
-  links                   Link[]
-  dashboards              Dashboard[]
-  tokens                  Token[]
-  restrictedTokens        RestrictedToken[]
-  oAuthCodes              OAuthCode[]
-  integrations            Integration[]
-  installedIntegrations   InstalledIntegration[]
-  folders                 FolderUser[]
-  folderAccessRequests    FolderAccessRequest[]
-  utmTemplates            UtmTemplate[]
-  payouts                 Payout[]
-  bountySubmissions       BountySubmission[]
-  programApplications     ProgramApplication[]
-  sentMessages            Message[]
-  partnerComments         PartnerComment[]
-  fraudEventGroups        FraudEventGroup[]
-  fraudAlertsReviewed     FraudAlert[]                 @relation("FraudAlertReviewer")
-  activityLogs            ActivityLog[]
-  createdCommissions      Commission[]
+  accounts Account[]
+  sessions Session[]
+  projects ProjectUsers[]
 
   @@index(sentMail)
   @@index(source)
@@ -97,8 +83,8 @@ model Mission {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  projectId   String
-  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   @@index([projectId])
 }
