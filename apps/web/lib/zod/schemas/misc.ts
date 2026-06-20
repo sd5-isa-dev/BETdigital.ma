@@ -3,7 +3,7 @@ import { WorkspaceRole } from "@prisma/client";
 import * as z from "zod/v4";
 
 export const RECURRING_MAX_DURATIONS = [0, 1, 3, 6, 12, 24];
-export const MAX_DURATION_LIMIT = 600;
+export const MAX_DURATION_LIMIT = 300;
 
 export const maxDurationSchema = z.coerce
   .number()
