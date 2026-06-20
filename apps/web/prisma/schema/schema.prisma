@@ -1,80 +1,35 @@
-datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
-}
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  isMachine     Boolean   @default(false)
-  createdAt     DateTime  @default(now())
-
-  // password & security fields
-  passwordHash         String?
-  invalidLoginAttempts Int       @default(0)
-  lockedAt             DateTime?
-
-  // user preferences
-  defaultWorkspace String? // slug of the user's default workspace
-  defaultPartnerId String? // the user's default partner ID
-
-  // internal fields
-  source   String? // where the user came from
-  sentMail Boolean @default(false)
-
-  // relational data
-  accounts                Account[]
-  sessions                Session[]
-  notificationPreferences UserNotificationPreferences?
-  projects                ProjectUsers[]
-  partners                PartnerUser[]
-  links                   Link[]
-  dashboards              Dashboard[]
-  tokens                  Token[]
-  restrictedTokens        RestrictedToken[]
-  oAuthCodes              OAuthCode[]
-  integrations            Integration[] // Integrations user created in their workspace
-  installedIntegrations   InstalledIntegration[] // Integrations user installed in their workspace
-  folders                 FolderUser[]
-  folderAccessRequests    FolderAccessRequest[]
-  utmTemplates            UtmTemplate[]
-  payouts                 Payout[]
-  bountySubmissions       BountySubmission[]
-  programApplications     ProgramApplication[]
-  sentMessages            Message[]
-  partnerComments         PartnerComment[]
-  fraudEventGroups        FraudEventGroup[]
-  fraudAlertsReviewed     FraudAlert[]                 @relation("FraudAlertReviewer")
-  activityLogs            ActivityLog[]
-  createdCommissions      Commission[]
-
-  @@index(sentMail)
-  @@index(source)
-  @@index(defaultWorkspace)
+datasource db {
+  // ⚠️ ATTENTION : Laissez "mysql" si vous utilisez encore PlanetScale.
+  // Si vous êtes passé sur Supabase ou Neon, changez en "postgresql".
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
+// =================================================================
+// 1. AUTHENTIFICATION (NextAuth) - NE PAS MODIFIER
+// =================================================================
+
 model Account {
-  id                       String  @id @default(cuid())
-  userId                   String
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String? @db.Text
-  refresh_token_expires_in Int?
-  access_token             String? @db.Text
-  expires_at               Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String? @db.Text
-  session_state            String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -90,4 +45,151 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  projects      ProjectUsers[]
+  invites       Invite[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// =================================================================
+// 2. WORKSPACES (Entreprises / Bureaux d'Études)
+// =================================================================
+
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  logo        String?
+  plan        String   @default("free")
+  stripeId    String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       ProjectUsers[]
+  invites     Invite[]
+  
+  // NOUVEAU : Relation vers les missions techniques du bureau
+  missions    Mission[]
+
+  // Relations héritées (à garder pour l'instant)
+  links       Link[]
+  domains     Domain[]
+  tags        Tag[]
+}
+
+model ProjectUsers {
+  id        String   @id @default(cuid())
+  role      String   @default("member") // owner, member
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId])
+  @@index([projectId])
+  @@index([userId])
+}
+
+model Invite {
+  email     String
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  inviterId String
+  inviter   User     @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@unique([email, projectId])
+  @@index([projectId])
+  @@index([inviterId])
+}
+
+// =================================================================
+// 3. VOS NOUVEAUX MODÈLES (Bureau d'Études Techniques)
+// =================================================================
+
+model Mission {
+  id          String   @id @default(cuid())
+  name        String
+  dwgLink     String?  @db.Text
+  description String?  @db.Text
+  status      String   @default("PENDING") // Valeurs possibles: PENDING, IN_PROGRESS, REVIEW, COMPLETED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  projectId   String   
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+// =================================================================
+// 4. MODÈLES HÉRITÉS DE DUB.CO (À conserver pour éviter les erreurs TS)
+// =================================================================
+
+model Link {
+  id          String   @id @default(cuid())
+  domain      String   @default("dub.sh")
+  key         String
+  url         String   @db.LongText
+  clicks      Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([domain, key])
+  @@index([projectId])
+}
+
+model Domain {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  verified    Boolean  @default(false)
+  primary     Boolean  @default(false)
+  archived    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+}
+
+model Tag {
+  id          String   @id @default(cuid())
+  name        String
+  color       String   @default("blue")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  projectId   String?
+  project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
 }
