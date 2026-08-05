@@ -1,103 +1,103 @@
-<a href="https://dub.co">
-  <img alt="Dub is the modern, open-source link attribution platform for short links, conversion tracking, and affiliate programs." src="https://github.com/user-attachments/assets/42cf0705-f5a2-4200-bc4a-c5acf0ba9e15">
-</a>
+<img src="https://github.com/user-attachments/assets/a1d7ced5-e6fc-41fd-9256-9d73a5f33597" alt="BET-digitalLogo" width="50" height="50">
 
-<h3 align="center">Dub</h3>
 
-<p align="center">
-    The open-source link attribution platform.
-    <br />
-    <a href="https://dub.co"><strong>Learn more »</strong></a>
-    <br />
-    <br />
-    <a href="#introduction"><strong>Introduction</strong></a> ·
-    <a href="#tech-stack"><strong>Tech Stack</strong></a> ·
-    <a href="#self-hosting"><strong>Self-hosting</strong></a> ·
-    <a href="#contributing"><strong>Contributing</strong></a>
-</p>
+# 🔗 BET-digital- AI Powered Content Creation Platform(Landing Page)
 
-<p align="center">
-  <a href="https://twitter.com/dubdotco">
-    <img src="https://img.shields.io/twitter/follow/dubdotco?style=flat&label=%40dubdotco&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
-  </a>
-  <a href="https://news.ycombinator.com/item?id=32939407"><img src="https://img.shields.io/badge/Hacker%20News-255-%23FF6600" alt="Hacker News"></a>
-  <a href="https://github.com/dubinc/dub/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/github/license/dubinc/dub?label=license&logo=github&color=f80&logoColor=fff" alt="License" />
-  </a>
-</p>
+<!-- <img src="https://github.com/user-attachments/assets/deab03fd-4234-44c3-a6ad-484c4a1a02a1" alt="Linkify Thubmnail"> -->
+<img src="https://github.com/user-attachments/assets/0ff7129e-2f5d-48ae-913d-d4fd1507e613" alt="BET-digitalThumbnail" style="border-radius: 12px;" width="1280">
 
-<br/>
 
-## Introduction
+## 🌟 Introduction
+BET-digitalis an innovative social media marketing platform designed to help you streamline your social media management effortlessly. Built with Next.js, Tailwind CSS, Shadcn UI, Magic UI, Aceternity UI, Prisma, MongoDB, Clerk, React Hook Form, and TypeScript, BET-digitalprovides powerful analytics and user-friendly features to enhance your social media marketing experience.
 
-Dub is the modern, open-source link attribution platform for [short links](https://dub.co/home), [conversion tracking](https://dub.co/analytics), and [affiliate programs](https://dub.co/partners).
+## 🚀 Features
 
-Our platform powers 100M+ clicks and 2M+ links monthly, and is used by world-class marketing teams from companies like Twilio, Buffer, Framer, Perplexity, Vercel, Laravel, and [more](https://dub.co/customers).
+- Real-time performance tracking across platforms
+- Engagement rate calculations and trends
+- Audience growth and demographic insights
+- Custom report generation
+- ROI tracking and analysis
 
-## Tech Stack
+## 🔗 Live Preview
 
-- [Next.js](https://nextjs.org/) – framework
-- [TypeScript](https://www.typescriptlang.org/) – language
-- [Tailwind](https://tailwindcss.com/) – CSS
-- [Prisma](https://www.prisma.io/) – ORM
-- [Upstash](https://upstash.com/) – redis
-- [Tinybird](https://tinybird.com/) – analytics
-- [PlanetScale](https://planetscale.com/) – database
-- [NextAuth.js](https://next-auth.js.org/) – auth
-- [BoxyHQ](https://boxyhq.com/enterprise-sso) – SSO/SAML
-- [Turborepo](https://turbo.build/repo) – monorepo
-- [Stripe](https://stripe.com/) – payments
-- [Resend](https://resend.com/) – emails
-- [Vercel](https://vercel.com/) – deployments
+Check out the live demo of BET-digitalhere: [Live Preview](http://BET-digital-ai.vercel.app)
 
-## Self-Hosting
+## 🎥 Watch Demo on YouTube
 
-You can self-host Dub for greater control over your data and design. [Read this guide](https://dub.co/docs/self-hosting/guide) to learn more.
+Check out the tutorial to see how this social media marketing platform was built: [Watch the Tutorial](https://youtu.be/q8mOwYrpAHA?si=XpGy9VIKkaWJmfPL) 💻 
 
-## Contributing
+## 💻 Tech Stack
 
-We love our contributors! Here's how you can contribute:
+* Next.js
+* Tailwind CSS
+* Shadcn UI
+* Magic UI
+* Aceternity UI
+* Prisma
+* MongoDB
+* Clerk
+* Recharts
+* Framer Motion
 
-- [Open an issue](https://github.com/dubinc/dub/issues) if you believe you've encountered a bug.
-- Follow the [local development guide](https://dub.co/docs/local-development) to get your local dev environment set up.
-- Make a [pull request](https://github.com/dubinc/dub/pull) to add new features/make quality-of-life improvements/fix bugs.
+## 🛠️ Installation
+To run BET-digitallocally, follow these steps:
 
-### Recommended Versions
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Shreyas-29/BET-digital-ai.git
+    ```
+2. Install dependencies:
+    ```bash
+    pnpm install
+    ```
+3. Set up environment variables in a `.env` file:
+    ```
+    # app
+    NEXT_PUBLIC_APP_NAME=
+    NEXT_PUBLIC_APP_DOMAIN=
 
-| Package | Version  |
-| ------- | -------- |
-| node    | v23.11.0 |
-| pnpm    | 9.15.9   |
+    # database
+    DATABASE_URL=
 
-### Common Local Development Issues
+    # auth
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+    CLERK_SECRET_KEY=
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL="/signin"
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL="/signup"
+    NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_URL="/"
+    NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_URL="/"
+    ```
 
-- `The table <table-name> does not exist in the current database.` - Run `pnpm prisma:push` push the state of the Prisma schema file to the database without using migrations files.
-- The project is not building correctly locally - verify your versions of `node` and `pnpm` match the recommended versions above. Delete all `node_modules`, `.next`, and `.turbo` directories in the `apps` and `packages` directory. You may now reinstall `node_modules` by running `pnpm install` and attempt to rebuild the project with `pnpm build`.
+4. Run the development server:
+    ```bash
+    pnpm run dev
+    ```
 
-### Dev Seed Script
+## ☕ Buy Me a Coffee
+If you enjoy using BET-digital, consider supporting my work!  
+[Buy Me a Coffee ☕](https://buymeacoffee.com/shreyas29)
 
-This script seeds the database with development data for testing and development purposes.
+## 📜 License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-**Basic seeding (adds data without deleting existing data):**
+## 💬 Contact
+If you have any questions or feedback, feel free to reach out via [GitHub Issues](https://github.com/Shreyas-29/BET-digital-ai/issues).
 
-```bash
-cd apps/web
-pnpm run script dev/seed
-```
+---
 
-**Truncate database before seeding (deletes all existing data first):**
+Built with ❤️ by [Shreyas](https://shreyas-sihasane.vercel.app/)
 
-```bash
-cd apps/web
-pnpm run script dev/seed --truncate
-```
+J'ai remplacé les 8 illustrations SVG utilisées dans cette section, plus l'icône stars. Mets ces images dans public/icons/ avec exactement ces noms (ou dis-moi les noms que tu préfères et je réajuste) :
 
-When using `--truncate`, the script will ask for confirmation before deleting any data.
+Composant	Fichier attendu
+Icons.stars	stars.png
+Images.analytics	analytics.png
+Images.ideation	ideation.png
+Images.centeral	centeral.png
+Images.circlePallete	circle-pallete.png
+Images.rings	rings.png
+Images.integration	integration.png
+Images.hash	hash.png
+Images.image	image.png
 
-## Repo Activity
-
-![Dub repo activity – generated by Axiom](https://repobeats.axiom.co/api/embed/6ac4c94a89ea20e2e10032b932a128b6d8442e66.svg "Repobeats analytics image")
-
-## License
-
-Dub Technologies, Inc. is a commercial open-source company, which means some parts of this open-source repository require a commercial license. The concept is called "Open Core" where the core technology (99%) is fully open source, licensed under [AGPLv3](https://opensource.org/license/agpl-v3) and the last 1% is covered under a commercial license (["/ee" Enterprise Edition](<https://github.com/dubinc/dub/tree/ee/apps/web/app/(ee)>)) which we believe is entirely relevant for larger organisations that require enterprise features. Enterprise features are built by the core engineering team of Dub Technologies, Inc., which is hired full-time.
+Remplace les deux fichiers (images.tsx et icons.tsx) à leurs emplacements d'origine (../global/images et ../global/icons). Le reste du fichier (company1-10, content, blob, checkEmail) n'a pas été touché.
