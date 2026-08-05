@@ -13,14 +13,21 @@ import { cn } from "../../lib/utils";
 
 export function AnimatedListItem({ children }: { children: React.ReactNode }) {
     const animations = {
-        initial: { scale: 0, opacity: 0 },
-        animate: { scale: 1, opacity: 1, originY: 0 },
-        exit: { scale: 0, opacity: 0 },
-        transition: { type: "spring" as const, stiffness: 350, damping: 40 },
+        initial: { scale: 0.85, opacity: 0, y: -24, filter: "blur(6px)" },
+        animate: { scale: 1, opacity: 1, y: 0, filter: "blur(0px)", originY: 0 },
+        exit: { scale: 0.9, opacity: 0, y: 12, filter: "blur(4px)" },
+        transition: {
+            type: "spring" as const,
+            stiffness: 260,
+            damping: 24,
+            mass: 0.9,
+            opacity: { duration: 0.25 },
+            filter: { duration: 0.35 },
+        },
     };
 
     return (
-        <motion.div {...animations} layout className="mx-auto w-full">
+        <motion.div {...animations} layout="position" className="mx-auto w-full">
             {children}
         </motion.div>
     );
@@ -59,7 +66,7 @@ export const AnimatedList = React.memo(
                 className={cn("flex flex-col items-center gap-3", className)}
                 {...props}
             >
-                <AnimatePresence>
+                <AnimatePresence mode="popLayout">
                     {itemsToShow.map((item) => (
                         <AnimatedListItem key={(item as React.ReactElement).key}>
                             {item}
