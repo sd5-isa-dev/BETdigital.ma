@@ -40,10 +40,10 @@ const Features = () => {
                                     </div>
                                     <div className="flex flex-col">
                                         <h4 className="text-xl font-heading font-medium heading ">
-                                            Get advanced analytics
+                                            Étape1: Import des Données du Projet
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
-                                            Track your performance with detailed analytics and optimize to get better results.
+                                            Soumettez vos plans et cahiers des charges en un clic pour démarrer l&apos;étude.
                                         </p>
                                     </div>
                                 </div>
@@ -54,17 +54,17 @@ const Features = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-5 lg:gap-5">
                             <MagicCard particles={true} className="flex flex-col items-start w-full row-span-1 bg-primary/[0.08]">
                                 <div className="bento-card w-full flex-row gap-6">
-                                    <div className="w-full h-52 relative">
-                                        <Images.ideation className="w-full h-full" />
-                                        <div className="w-40 h-40 rounded-full bg-primary/10 blur-3xl -z-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
-                                    </div>
-                                    <div className="flex flex-col mt-auto">
-                                        <h4 className="text-xl font-heading font-medium heading">
-                                            Content ideation
+                                    <div className="flex flex-col mb-auto">
+                                        <h4 className="text-xl font-heading font-medium heading ">
+                                            Étape2: Étude &amp; Devis
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
-                                            Generate ideas for your content with our AI-powered tools to create engaging posts in seconds.
+                                            Analyse de vos fichiers suivie d&apos;un devis détaillé et d&apos;un planning de réalisation.
                                         </p>
+                                    </div>
+                                    <div className="w-full h-28 relative">
+                                        <Images.integration className="w-full h-full" />
+                                        <div className="w-28 h-28 rounded-full bg-primary/10 blur-3xl -z-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full"></div>
                                     </div>
                                 </div>
                             </MagicCard>
@@ -96,20 +96,22 @@ const Features = () => {
                             </div>
                             <MagicCard particles={true} className="flex flex-col items-start w-full row-span-1 bg-primary/[0.08]">
                                 <div className="bento-card w-full flex-row gap-6">
-                                    <div className="flex flex-col mb-auto">
-                                        <h4 className="text-xl font-heading font-medium heading ">
-                                            Seamless integrations
+                                    <div className="w-full h-52 relative">
+                                        <Images.ideation className="w-full h-full" />
+                                        <div className="w-40 h-40 rounded-full bg-primary/10 blur-3xl -z-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                                    </div>
+                                    <div className="flex flex-col mt-auto">
+                                        <h4 className="text-xl font-heading font-medium heading">
+                                            Étape3: Production &amp; Suivi
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
-                                            Connect your favorite tools and platforms to streamline your workflow and save time.
+                                            Suivez la conception technique et la modélisation BIM de votre projet en temps réel via votre tableau de bord.
                                         </p>
-                                    </div>
-                                    <div className="w-full h-28 relative">
-                                        <Images.integration className="w-full h-full" />
-                                        <div className="w-28 h-28 rounded-full bg-primary/10 blur-3xl -z-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full"></div>
                                     </div>
                                 </div>
                             </MagicCard>
+                            
+                            
                         </div>
                     </Container>
                     <Container>
@@ -121,10 +123,10 @@ const Features = () => {
                                     </div>
                                     <div className="flex flex-col mt-auto">
                                         <h4 className="text-xl font-heading font-medium heading ">
-                                            Image generation with AI
+                                            Étape4: Revue Validation
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
-                                            Create stunning images with AI-powered tools in seconds.
+                                            Examinez les avancées, échangez avec notre équipe et validez chaque étape clé avant la livraison finale.
                                         </p>
                                     </div>
                                 </div>
@@ -136,10 +138,10 @@ const Features = () => {
                                     </div>
                                     <div className="flex flex-col mt-auto">
                                         <h4 className="text-xl font-heading font-medium heading ">
-                                            Hashtags suggestions
+                                            Étape5: Téléchargez votre dossier complet, avec suivi technique.
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
-                                            Get hashtag suggestions based on your content and audience to increase your reach and engagement.
+                                            Téléchargez vos plans et maquettes finaux, et bénéficiez d&apos;un suivi technique réactif pendant toute la phase de chantier.
                                         </p>
                                     </div>
                                 </div>
