@@ -34,46 +34,103 @@ const files = [
 interface NotificationItem {
   name: string;
   description: string;
-  icon: string;
-  color: string;
   time: string;
 }
 
+// Fixed color + label per file type, so every .dwg / .pdf / .xlsx ... always
+// renders with the same identity across the whole list.
+const FILE_TYPE_STYLES: Record<string, { label: string; color: string }> = {
+  dwg: { label: "DWG", color: "#2F6FED" },   // AutoCAD drawings — blue
+  dxf: { label: "DXF", color: "#2F6FED" },
+  pdf: { label: "PDF", color: "#E5252A" },   // PDFs — red
+  xlsx: { label: "XLS", color: "#1D8348" },  // Spreadsheets — green
+  docx: { label: "DOC", color: "#1E3A8A" },  // Word docs — navy
+  rvt: { label: "RVT", color: "#7C3AED" },   // Revit models — purple
+  ifc: { label: "IFC", color: "#F59E0B" },   // OpenBIM models — amber
+  mpp: { label: "MPP", color: "#0F9D58" },   // MS Project plannings — dark green
+};
+
+const DEFAULT_FILE_STYLE = { label: "DOC", color: "#64748B" };
+
+function getFileTypeStyle(fileName: string) {
+  const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
+  return FILE_TYPE_STYLES[ext] ?? DEFAULT_FILE_STYLE;
+}
+
+// Small "file" logo (page with a folded corner) tinted per file type,
+// with the extension as its label — reads as a real file-type icon
+// rather than a generic emoji.
+const FileTypeLogo = ({ fileName }: { fileName: string }) => {
+  const { label, color } = getFileTypeStyle(fileName);
+  return (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M9 2h11l7 7v23a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2Z"
+        fill={color}
+      />
+      <path d="M20 2v7h7" fill="#fff" fillOpacity="0.35" />
+      <text
+        x="18"
+        y="25"
+        textAnchor="middle"
+        fontSize="7.5"
+        fontWeight="700"
+        fill="#fff"
+        fontFamily="ui-sans-serif, system-ui, sans-serif"
+        letterSpacing="0.3"
+      >
+        {label}
+      </text>
+    </svg>
+  );
+};
+
 const notifications: NotificationItem[] = [
-  {
-    name: "Nouveau message",
-    description: "Magic UI",
-    icon: "💬",
-    color: "#FF3D71",
-    time: "il y a 2m",
-  },
-  {
-    name: "Utilisateur inscrit",
-    description: "Magic UI",
-    icon: "👤",
-    color: "#FFB800",
-    time: "il y a 5m",
-  },
-  {
-    name: "Paiement reçu",
-    description: "Magic UI",
-    icon: "💸",
-    color: "#00C9A7",
-    time: "il y a 10m",
-  },
-  {
-    name: "Nouvel événement",
-    description: "Magic UI",
-    icon: "🗞️",
-    color: "#1E86FF",
-    time: "il y a 15m",
-  },
+  // VRD, Terrassement & Réseaux
+  { name: "Trace_en_plan_voirie.dwg", description: "Plan d'implantation des routes.", time: "il y a 2m" },
+  { name: "Profil_en_long_voirie.pdf", description: "Élévation et pentes routières.", time: "il y a 5m" },
+  { name: "Cubature_terrassement.xlsx", description: "Volumes déblais et remblais.", time: "il y a 8m" },
+  { name: "Note_calcul_assainissement.pdf", description: "Dimensionnement des réseaux d'évacuation.", time: "il y a 11m" },
+  { name: "Plan_noeuds_AEP.dwg", description: "Détails raccordements eau potable.", time: "il y a 14m" },
+
+  // Structure & Gros Œuvre
+  { name: "Descente_de_charges.xlsx", description: "Transfert charges vers fondations.", time: "il y a 17m" },
+  { name: "Note_calcul_BA.pdf", description: "Dimensionnement du béton armé.", time: "il y a 20m" },
+  { name: "Plan_implantation.dwg", description: "Coordonnées topographiques du bâtiment.", time: "il y a 23m" },
+  { name: "Plan_coffrage_PH_RDC.pdf", description: "Dimensions géométriques du béton.", time: "il y a 26m" },
+  { name: "Plan_ferraillage.dwg", description: "Disposition des armatures acier.", time: "il y a 29m" },
+  { name: "Nomenclature_armatures.xlsx", description: "Quantités des barres d'acier.", time: "il y a 32m" },
+  { name: "Details_charpente.dwg", description: "Assemblages de structure métallique.", time: "il y a 35m" },
+
+  // MEP (Électricité, CVC, Plomberie)
+  { name: "Bilan_puissance.xlsx", description: "Charge électrique totale requise.", time: "il y a 38m" },
+  { name: "Note_eclairement.pdf", description: "Calculs d'éclairage en Lux.", time: "il y a 41m" },
+  { name: "Schema_unifilaire.dwg", description: "Schéma électrique du TGBT.", time: "il y a 44m" },
+  { name: "Plan_CFO_CFA.dwg", description: "Emplacements des équipements électriques.", time: "il y a 47m" },
+  { name: "Bilan_thermique.xlsx", description: "Déperditions et apports thermiques.", time: "il y a 50m" },
+  { name: "Plan_gaines_CVC.dwg", description: "Tracé gaines de ventilation.", time: "il y a 53m" },
+  { name: "Plan_chaufferie.pdf", description: "Aménagement du local technique.", time: "il y a 56m" },
+  { name: "Plan_evacuation.dwg", description: "Tracé évacuation eaux usées.", time: "il y a 59m" },
+
+  // BIM & Synthèse (Coordination)
+  { name: "Maquette_structure.rvt", description: "Modèle 3D natif Revit.", time: "il y a 1h2m" },
+  { name: "Maquette_synthese.ifc", description: "Modèle 3D combiné OpenBIM.", time: "il y a 1h5m" },
+  { name: "Rapport_clash.pdf", description: "Détection des collisions physiques.", time: "il y a 1h8m" },
+  { name: "Plan_reservations.dwg", description: "Ouvertures pour passages réseaux.", time: "il y a 1h11m" },
+
+  // Pièces Écrites & Administratives (DCE)
+  { name: "CCTP_Gros_Oeuvre.docx", description: "Spécifications techniques des matériaux.", time: "il y a 1h14m" },
+  { name: "CCAP.docx", description: "Clauses administratives du marché.", time: "il y a 1h17m" },
+  { name: "DQE.xlsx", description: "Bordereau quantitatif et estimatif.", time: "il y a 1h20m" },
+  { name: "Planning_execution.mpp", description: "Calendrier Gantt des travaux.", time: "il y a 1h23m" },
+  { name: "Etude_geotechnique.pdf", description: "Analyse sol et fondations.", time: "il y a 1h26m" },
+  { name: "Notice_securite.pdf", description: "Stratégie de sécurité incendie.", time: "il y a 1h29m" },
 ];
 
 // Repeat so the list keeps producing new items for a while before AnimatedList loops it
-const loopedNotifications: NotificationItem[] = Array.from({ length: 10 }, () => notifications).flat();
+const loopedNotifications: NotificationItem[] = Array.from({ length: 4 }, () => notifications).flat();
 
-const GlassNotification = ({ name, description, icon, color, time }: NotificationItem) => {
+const GlassNotification = ({ name, description, time }: NotificationItem) => {
   return (
     <figure
       className={cn(
@@ -87,11 +144,8 @@ const GlassNotification = ({ name, description, icon, color, time }: Notificatio
       )}
     >
       <div className="relative flex flex-row items-center gap-3">
-        <div
-          className="flex size-9 shrink-0 items-center justify-center rounded-full shadow-[0_2px_10px_rgba(0,0,0,0.35)] ring-1 ring-white/10"
-          style={{ backgroundColor: color }}
-        >
-          <span className="text-base leading-none">{icon}</span>
+        <div className="flex size-9 shrink-0 items-center justify-center">
+          <FileTypeLogo fileName={name} />
         </div>
         <div className="flex min-w-0 flex-col">
           <figcaption className="flex flex-row items-center gap-1 whitespace-pre text-sm font-medium text-white/90">
@@ -193,20 +247,23 @@ const Images = {
         </div>
     ),
     ideation: (props: LucideProps) => (
-        <img
-            src="/icons/cachet-bet.png"
-            alt="Analytics"
-            width={props.size || 240}
-            height={props.size || 240}
-            style={{
-                width: props.size || 240,
-                height: props.size || 240,
-                aspectRatio: '1 / 1',
-                objectFit: 'contain',
-                flexShrink: 0,
-                display: 'inline-block',
-            }}
-        />
+        <div
+            className={cn("flex h-full w-full items-center justify-center", props.className)}
+        >
+            <img
+                src="/icons/cachet-bet.png"
+                alt="Analytics"
+                width={props.size || 240}
+                height={props.size || 240}
+                style={{
+                    width: props.size || 240,
+                    height: props.size || 240,
+                    aspectRatio: '1 / 1',
+                    objectFit: 'contain',
+                    flexShrink: 0,
+                }}
+            />
+        </div>
     ),
     centeral: (props: LucideProps) => (
         <svg {...props} width="988" height="349" viewBox="0 0 988 349" fill="none" xmlns="http://www.w3.org/2000/svg">
