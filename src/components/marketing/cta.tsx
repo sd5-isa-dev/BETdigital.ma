@@ -15,7 +15,7 @@ const CTA = () => {
                             Prêt à digitaliser vos <br className="hidden md:block" /> études techniques ?
                         </h2>
                         <p className="text-base md:text-lg text-center text-accent-foreground/80 max-w-xl mx-auto mt-6">
-                            Ready to get started? Sign up now and start your journey with us. We are here to help you grow.
+                            Rejoignez les bureaux d'études et entreprises de sous-traitance qui gagnent du temps sur chaque projet BTP.
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center w-full gap-6 mt-6">
                             <Button asChild size="lg" className="w-full md:w-max">

@@ -26,11 +26,11 @@ const Footer = () => {
                             </span>
                         </div>
                         <p className="text-base max-w mt-4">
-                            Empower your business with our AI tools.
+                            Vos études techniques, digitalisées.
                         </p>
                         <Button className="mt-8">
                             <Link href="/app">
-                                Start for free
+                                Créer un compte
                             </Link>
                         </Button>
                     </div>

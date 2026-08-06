@@ -66,7 +66,7 @@ const Navbar = () => {
                                     </Button>
                                     <Button size="sm" variant="white" asChild className="hidden sm:flex">
                                         <Link href="/auth/signup">
-                                            Start for free
+                                            Créer un compte
                                             <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
                                         </Link>
                                     </Button>
