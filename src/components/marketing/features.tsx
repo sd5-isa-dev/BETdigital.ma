@@ -12,12 +12,12 @@ const Features = () => {
         <div className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full">
             <Container>
                 <div className="flex flex-col items-center text-center max-w-2xl mx-auto">
-                    <SectionBadge title="Features" />
+                    <SectionBadge title="Processus" />
                     <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-medium !leading-snug mt-6">
-                        Create content faster <br /> and smarter
+                        Votre projet, <br /> étape par étape
                     </h2>
                     <p className="text-base md:text-lg text-center text-accent-foreground/80 mt-6">
-                        Transform your social media strategy with BET-digital&apos;s cutting-edge features, designed to optimize your content creation and engagement like never before.
+                        De la réception de votre dossier jusqu&apos;à la livraison finale, BET-digital encadre votre projet selon un processus rigoureux : analyse technique, chiffrage, suivi d'exécution et validation à chaque étape, assurés par une équipe d'ingénieurs qualifiés.
                     </p>
                 </div>
             </Container>
@@ -28,7 +28,7 @@ const Features = () => {
                             <MagicCard particles={true} className="flex flex-col items-start size-full bg-primary/[0.08]">
                                 <div className="bento-card flex items-center justify-center min-h-72">
                                     <span className="text-muted-foreground group-hover:text-foreground mx-auto relative">
-                                        <Icons.stars className="w-20 h-20" />
+                                        <Icons.stars className="w-64 h-68" />
                                     </span>
                                     <Ripple />
                                 </div>
@@ -39,7 +39,7 @@ const Features = () => {
                                         <Images.analytics className="w-full h-full" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <h4 className="text-xl font-heading font-medium heading ">
+                                        <h4 className="text-xl font-heading font-medium heading text-white">
                                             Étape1: Import des Données du Projet
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
@@ -55,7 +55,7 @@ const Features = () => {
                             <MagicCard particles={true} className="flex flex-col items-start w-full row-span-1 bg-primary/[0.08]">
                                 <div className="bento-card w-full flex-row gap-6">
                                     <div className="flex flex-col mb-auto">
-                                        <h4 className="text-xl font-heading font-medium heading ">
+                                        <h4 className="text-xl font-heading font-medium heading text-white">
                                             Étape2: Étude &amp; Devis
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
@@ -101,7 +101,7 @@ const Features = () => {
                                         <div className="w-40 h-40 rounded-full bg-primary/10 blur-3xl -z-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
                                     </div>
                                     <div className="flex flex-col mt-auto">
-                                        <h4 className="text-xl font-heading font-medium heading">
+                                        <h4 className="text-xl font-heading font-medium heading text-white">
                                             Étape3: Production &amp; Suivi
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
@@ -122,8 +122,8 @@ const Features = () => {
                                         <Images.image className="w-full h-40 lg:h-auto" />
                                     </div>
                                     <div className="flex flex-col mt-auto">
-                                        <h4 className="text-xl font-heading font-medium heading ">
-                                            Étape4: Revue Validation
+                                        <h4 className="text-xl font-heading font-medium heading text-white">
+                                            Étape4: Revue & Validation
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">
                                             Examinez les avancées, échangez avec notre équipe et validez chaque étape clé avant la livraison finale.
@@ -137,7 +137,7 @@ const Features = () => {
                                         <Images.hash className="w-full h-40 lg:h-52" />
                                     </div>
                                     <div className="flex flex-col mt-auto">
-                                        <h4 className="text-xl font-heading font-medium heading ">
+                                        <h4 className="text-xl font-heading font-medium heading text-white">
                                             Étape5: Téléchargez votre dossier complet, avec suivi technique.
                                         </h4>
                                         <p className="text-sm md:text-base mt-2 text-muted-foreground">

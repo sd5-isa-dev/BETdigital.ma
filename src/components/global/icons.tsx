@@ -1,5 +1,6 @@
 import { LucideProps, PenOff } from "lucide-react";
 import Image from "next/image";
+import { cn } from "../../lib/utils";
 
 type IconType = {
     [key: string]: (props: LucideProps) => JSX.Element;
@@ -12,13 +13,29 @@ const Icons: IconType = {
                 src="/icons/big-logo.png" 
                 alt="Logo" 
                 width={196} 
-                height={196} 
+                height={200} 
                 className="object-contain w-full h-full"
             />
         </div>
     ),
     stars: (props: LucideProps) => (
-        <img src="/icons/stars.png" alt="Stars" className={props.className} />
+        <div
+            className={cn("flex h-full w-full items-center justify-center", props.className)}
+        >
+            <img
+                src="/icons/stars.png"
+                alt="Analytics"
+                width={props.size || 340}
+                height={props.size || 340}
+                style={{
+                    width: props.size || 340,
+                    height: props.size || 340,
+                    aspectRatio: '1 / 1',
+                    objectFit: 'contain',
+                    flexShrink: 0,
+                }}
+            />
+        </div>
     ),
     menu: (props: LucideProps) => (
         <svg {...props} width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
