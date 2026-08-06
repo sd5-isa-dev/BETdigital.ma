@@ -1,71 +1,77 @@
 type PLAN = {
     id: string;
     title: string;
-    desc: string;
-    monthlyPrice: number;
-    yearlyPrice: number;
-    badge?: string;
-    buttonText: string;
-    features: string[];
-    link: string;
+    category: "Résidentiel" | "Industriel" | "Tertiaire" | "Infrastructure";
+    location: string;
+    surface: string;
+    mission: string;
+    year: string;
+    description: string;
+    // Placeholder until real photos are available — see ImagePlaceholder in pricing.tsx
+    image?: string;
+    featured?: boolean;
 };
 
 export const PLANS: PLAN[] = [
     {
-        id: "free",
-        title: "Free",
-        desc: "Get started with essential tools for social media content creation",
-        monthlyPrice: 0,
-        yearlyPrice: 0,
-        buttonText: "Get Started",
-        features: [
-            "Basic AI content generation",
-            "4 social media integrations",
-            "Community support",
-            "1 project limit",
-            "Standard analytics",
-            "Basic image generation"
-        ],
-        link: "https://stripe.com/free-plan-link"
+        id: "al-amal",
+        title: "Résidence Al Amal",
+        category: "Résidentiel",
+        location: "Casablanca",
+        surface: "4 500 m²",
+        mission: "Étude béton armé & VRD",
+        year: "2025",
+        description: "Conception structurelle complète d'un ensemble R+6 avec sous-sol parking, avec suivi BIM du chantier jusqu'à la livraison.",
+        featured: true
     },
     {
-        id: "pro",
-        title: "Pro",
-        desc: "Unlock advance features for enhanced content and strategy",
-        monthlyPrice: 10,
-        yearlyPrice: 120,
-        badge: "Most Popular",
-        buttonText: "Upgrade to Pro",
-        features: [
-            "Advanced AI content generation",
-            "10 social media integrations",
-            "Priority email support",
-            "10 project limit",
-            "Enhanced analytics & insights",
-            "Pro model image generation",
-            "Team collaboration tools",
-            "Custom branding options"
-        ],
-        link: "https://stripe.com/pro-plan-link"
+        id: "zone-industrielle-nord",
+        title: "Zone Industrielle Nord",
+        category: "Industriel",
+        location: "Meknès",
+        surface: "12 000 m²",
+        mission: "Structure métallique & note de calcul",
+        year: "2024",
+        description: "Dimensionnement de la charpente métallique et des fondations pour un hangar logistique multi-cellules."
     },
     {
-        id: "enterprise",
-        title: "Enterprise",
-        desc: "Tailored solutions for large organizations and agencies",
-        monthlyPrice: 15,
-        yearlyPrice: 180,
-        badge: "Contact Sales",
-        buttonText: "Upgrade to Enterprise",
-        features: [
-            "Unlimited AI content generation",
-            "All social media integrations",
-            "Dedicated account manager",
-            "Unlimited projects",
-            "Custom analytics & reporting",
-            "Enterprise-grade security",
-            "Free updates",
-            // "24/7 priority support"
-        ],
-        link: "https://stripe.com/enterprise-plan-link"
+        id: "lotissement-cedres",
+        title: "Lotissement Les Cèdres",
+        category: "Résidentiel",
+        location: "Fès",
+        surface: "8 000 m²",
+        mission: "VRD & levé topographique",
+        year: "2024",
+        description: "Étude complète de voirie, réseaux divers et assainissement pour un lotissement de 42 lots."
+    },
+    {
+        id: "techpark-siege",
+        title: "Siège Social TechPark",
+        category: "Tertiaire",
+        location: "Rabat",
+        surface: "2 800 m²",
+        mission: "Modélisation BIM & suivi de chantier",
+        year: "2025",
+        description: "Coordination BIM tous corps d'état pour un immeuble de bureaux R+5 à haute performance énergétique."
+    },
+    {
+        id: "pont-rn8",
+        title: "Ouvrage d'Art RN8",
+        category: "Infrastructure",
+        location: "Meknès",
+        surface: "180 ml",
+        mission: "Étude d'ouvrage d'art",
+        year: "2023",
+        description: "Calcul de structure et vérification sismique d'un pont routier franchissant l'oued, en lien avec les autorités locales."
+    },
+    {
+        id: "ecole-al-fath",
+        title: "Complexe Scolaire Al Fath",
+        category: "Tertiaire",
+        location: "Meknès",
+        surface: "3 600 m²",
+        mission: "Étude structure & contrôle technique",
+        year: "2024",
+        description: "Dimensionnement parasismique et contrôle technique d'un groupe scolaire de 24 salles de classe."
     }
 ];

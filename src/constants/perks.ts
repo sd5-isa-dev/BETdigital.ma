@@ -5,32 +5,32 @@ import React from "react";
 export const PERKS = [
     {
         icon: ZapIcon,
-        title: "Fast and Efficient",
-        description: "Experience quick and seamless content creation with our optimized AI tools."
+        title: "Rapide et Efficace",
+        description: "Des délais d'études raccourcis grâce à des outils numériques optimisés, sans jamais compromettre la précision technique."
     },
     {
         icon: ChartSplineIcon,
-        title: "Insightful Analytics",
-        description: "Gain valuable insights and analytics to enhance your social media strategy."
+        title: "Études Précises",
+        description: "Des calculs de structure et des analyses techniques rigoureuses, réalisés par des ingénieurs qualifiés et vérifiés à chaque étape."
     },
     {
         icon: LifeBuoyIcon,
-        title: "24/7 Support",
-        description: "Our team is available around the clock to assist with any issues or questions."
+        title: "Suivi Technique Réactif",
+        description: "Notre équipe reste disponible pour répondre à vos questions et ajuster les études tout au long du chantier."
     },
     {
         icon: PaletteIcon,
-        title: "Customizable Solutions",
-        description: "Tailor the tools and features to fit your unique social media needs."
+        title: "Solutions Sur Mesure",
+        description: "Chaque projet est unique : nous adaptons nos méthodes et nos livrables à vos contraintes techniques et réglementaires."
     },
     {
         icon: ShieldCheckIcon,
-        title: "Secure and Reliable",
-        description: "Trust our platform to keep your data safe and ensure consistent performance."
+        title: "Conformité & Fiabilité",
+        description: "Vos données et vos plans sont protégés, et chaque étude respecte scrupuleusement les normes en vigueur."
     },
     {
         icon: WaypointsIcon,
-        title: "Seamless Integration",
-        description: "Easily integrate with your existing social media platforms and tools."
+        title: "Intégration BIM Fluide",
+        description: "Connectez facilement nos livrables à vos outils de modélisation BIM et à votre chaîne de production existante."
     },
 ];

@@ -1,187 +1,188 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PLANS } from "@/constants";
 import { cn } from "@/functions";
-import { AnimatePresence, motion } from "framer-motion";
-import { CheckIcon } from "lucide-react";
-import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowUpRightIcon, ImageIcon, LucideIcon, MapPinIcon, RulerIcon } from "lucide-react";
+import { useState } from "react";
 import Container from "../global/container";
-import { Button } from "../ui/button";
-import NumberTicker from "../ui/number-ticker";
 import { SectionBadge } from "../ui/section-bade";
 
-type Plan = "monthly" | "yearly";
+type Project = {
+    id: string;
+    title: string;
+    category: string;
+    location: string;
+    surface: string;
+    mission: string;
+    year: string;
+    description: string;
+    image?: string;
+    featured?: boolean;
+};
+
+const CATEGORIES = ["Tous", "Résidentiel", "Industriel", "Tertiaire", "Infrastructure"] as const;
 
 const Pricing = () => {
+    const [active, setActive] = useState<(typeof CATEGORIES)[number]>("Tous");
+
+    const filtered: Project[] =
+        active === "Tous" ? PLANS : PLANS.filter((p) => p.category === active);
+
+    const featured = active === "Tous" ? filtered.find((p) => p.featured) : undefined;
+    const rest = featured ? filtered.filter((p) => p.id !== featured.id) : filtered;
+
     return (
-        <div className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24  w-full relative">
+        <div className="flex flex-col items-center justify-center py-12 md:py-16 lg:py-24 w-full relative">
             <Container>
                 <div className="flex flex-col items-center text-center max-w-xl mx-auto">
-                    <SectionBadge title="Choose your plan" />
+                    <SectionBadge title="Nos Réalisations" />
                     <h2 className="text-2xl md:text-4xl lg:text-5xl font-heading font-medium !leading-snug mt-6">
-                        Simple and transparent pricing
+                        Des projets concrets, pensés avec précision
                     </h2>
                     <p className="text-base md:text-lg text-center text-accent-foreground/80 mt-6">
-                        Choose the plan that suits your needs. No hidden fees, no surprises.
+                        Résidentiel, industriel, tertiaire ou infrastructure : un aperçu des études techniques que BET-digital accompagne, du premier plan à la livraison.
                     </p>
                 </div>
             </Container>
+
             <div className="mt-8 w-full relative flex flex-col items-center justify-center">
                 <div className="absolute hidden lg:block top-1/2 right-2/3 translate-x-1/4 -translate-y-1/2 w-96 h-96 bg-primary/15 blur-[10rem] -z-10"></div>
                 <div className="absolute hidden lg:block top-1/2 left-2/3 -translate-x-1/4 -translate-y-1/2 w-96 h-96 bg-violet-500/15 blur-[10rem] -z-10"></div>
+
                 <Container>
-                    <Tabs defaultValue="monthly" className="w-full flex flex-col items-center justify-center">
-                        <TabsList>
-                            <TabsTrigger value="monthly">
-                                Monthly
-                            </TabsTrigger>
-                            <TabsTrigger value="yearly">
-                                Yearly
-                            </TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="monthly">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-14">
-                                {PLANS.map((plan, index) => (
-                                    <Plan
-                                        key={index}
-                                        index={index}
-                                        {...plan}
-                                        plan="monthly"
+                    <div className="flex flex-wrap items-center justify-center gap-1 p-1 rounded-full border border-border/60 bg-background/40 backdrop-blur-sm mx-auto w-fit">
+                        {CATEGORIES.map((cat) => (
+                            <button
+                                key={cat}
+                                type="button"
+                                onClick={() => setActive(cat)}
+                                className={cn(
+                                    "relative px-4 py-1.5 text-sm font-medium rounded-full transition-colors duration-200",
+                                    active === cat ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                                )}
+                            >
+                                {active === cat && (
+                                    <motion.span
+                                        layoutId="active-project-category"
+                                        className="absolute inset-0 rounded-full bg-primary/90 -z-10"
+                                        transition={{ type: "spring", duration: 0.5 }}
                                     />
+                                )}
+                                {cat}
+                            </button>
+                        ))}
+                    </div>
+
+                    <div className="mt-14 w-full flex flex-col gap-6">
+                        {featured && <FeaturedProjectCard project={featured} />}
+
+                        {rest.length > 0 && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                                {rest.map((project) => (
+                                    <ProjectCard key={project.id} project={project} />
                                 ))}
                             </div>
-                        </TabsContent>
-                        <TabsContent value="yearly">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full mt-14">
-                                {PLANS.map((plan, index) => (
-                                    <Plan
-                                        key={index}
-                                        index={index}
-                                        {...plan}
-                                        plan="yearly"
-                                    />
-                                ))}
-                            </div>
-                        </TabsContent>
-                    </Tabs>
+                        )}
+
+                        {filtered.length === 0 && (
+                            <p className="text-center text-muted-foreground py-12">
+                                Aucun projet à afficher pour cette catégorie pour le moment.
+                            </p>
+                        )}
+                    </div>
                 </Container>
             </div>
         </div>
     )
 };
 
-const Plan = ({
-    id,
-    title,
-    desc,
-    monthlyPrice,
-    yearlyPrice,
-    buttonText,
-    features,
-    index,
-    plan,
-}: {
-    id: string;
-    title: string;
-    desc: string;
-    monthlyPrice: number;
-    yearlyPrice: number;
-    buttonText: string;
-    features: string[];
-    index: number;
-    plan: Plan;
-}) => {
+// Reserved space for a real project photo. Swap the contents of this div for
+// an <img src="..." /> (or next/image) once photos are available — keep the
+// same wrapping className so sizing stays consistent everywhere it's used.
+const ImagePlaceholder = ({ className }: { className?: string }) => (
+    <div
+        className={cn(
+            "relative flex items-center justify-center overflow-hidden rounded-xl border border-dashed border-border/60 bg-gradient-to-br from-primary/10 via-violet-500/5 to-transparent",
+            className
+        )}
+    >
+        <div className="flex flex-col items-center gap-2 text-muted-foreground/50">
+            <ImageIcon className="w-8 h-8" strokeWidth={1.3} />
+            <span className="text-xs">Photo du projet</span>
+        </div>
+    </div>
+);
 
-    const getDisplayedPrice = (plan: string, monthlyPrice: number, yearlyPrice: number) => {
-        if (plan === "monthly") {
-            return monthlyPrice === 0 ? 0 : monthlyPrice;
-        } else if (plan === "yearly") {
-            const discountedPrice = Math.round((yearlyPrice * 0.8) / 12);
-            return yearlyPrice === 0 ? 0 : discountedPrice;
-        }
-        return 0;
-    };
+const CategoryBadge = ({ category }: { category: string }) => (
+    <span className="absolute top-3 left-3 px-2.5 py-1 text-xs font-medium rounded-full bg-background/70 backdrop-blur-sm border border-border/60 text-foreground">
+        {category}
+    </span>
+);
 
-    const displayedPrice = getDisplayedPrice(plan, monthlyPrice, yearlyPrice);
+const StatChip = ({ icon: Icon, label }: { icon: LucideIcon; label: string }) => (
+    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground px-2 py-1 rounded-md bg-foreground/5 border border-border/40">
+        <Icon className="w-3.5 h-3.5 shrink-0" />
+        {label}
+    </span>
+);
 
-    return (
-        <div key={index} className="w-full relative flex flex-col saturate-150 rounded-2xl">
-
-            <div
-                className={cn(
-                    "flex flex-col size-full border rounded-2xl relative p-3 [background-image:linear-gradient(345deg,rgba(255,255,255,0.01)_0%,rgba(255,255,255,0.03)_100%)]",
-                    id === "pro" ? "border-primary/80" : "border-border/60",
-                )}
-            >
-                {id === "pro" && (
-                    <div className="max-w-fit min-w-min inline-flex items-center whitespace-nowrap px-1 h-7 rounded-full bg-gradient-to-r from-primary to-violet-500 absolute -top-3 left-1/2 -translate-x-1/2 select-none">
-                        <span className="flex-1 text-sm px-2 font-medium bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent bg-[length:250%_100%] animate-background-shine">
-                            Most Popular
-                        </span>
-                    </div>
-                )}
-                <div className="flex flex-col p-3 w-full">
-                    <h2 className="text-xl font-medium">
-                        {title}
-                    </h2>
-                    <p className="text-sm mt-2 text-muted-foreground break-words">
-                        {desc}
-                    </p>
+const FeaturedProjectCard = ({ project }: { project: Project }) => (
+    <div className="w-full rounded-2xl border border-primary/50 p-3 [background-image:linear-gradient(345deg,rgba(255,255,255,0.01)_0%,rgba(255,255,255,0.03)_100%)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="relative">
+                <ImagePlaceholder className="w-full h-64 lg:h-full" />
+                <CategoryBadge category={project.category} />
+            </div>
+            <div className="flex flex-col justify-center p-3">
+                <span className="text-xs font-medium text-primary uppercase tracking-wide">
+                    Projet phare · {project.year}
+                </span>
+                <h3 className="text-xl md:text-2xl font-medium font-heading mt-2">
+                    {project.title}
+                </h3>
+                <p className="text-sm md:text-base text-muted-foreground mt-3">
+                    {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mt-5">
+                    <StatChip icon={MapPinIcon} label={project.location} />
+                    <StatChip icon={RulerIcon} label={project.surface} />
                 </div>
-                <hr className="shrink-0 border-none w-full h-px bg-border" role="separator" />
-                <div className="relative flex flex-col flex-1 align-top w-full p-3 h-full break-words text-left gap-4">
-                    <div className="flex items-end gap-2">
-                        <div className="flex items-end gap-1 w-40">
-                            <span className="text-3xl md:text-4xl font-bold">
-                                ${displayedPrice === 0 ? 0 : <NumberTicker value={displayedPrice} />}
-                            </span>
-                            {/* In here 120 * 0.8 = 96 and /12 to get monthly price */}
-                            <span className="text-lg text-muted-foreground font-medium font-headin">
-                                per {plan === "monthly" ? "month" : "month"}
-                            </span>
-                        </div>
-                        <AnimatePresence>
-                            {(id !== "free" && plan === "yearly") && (
-                                <motion.span
-                                    initial={{ opacity: 0, scale: 0 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0 }}
-                                    transition={{ duration: 0.2 }}
-                                    aria-hidden="true"
-                                    className="text-xs px-2 py-0.5 rounded mb-1 text-foreground bg-primary font-medium"
-                                >
-                                    -20%
-                                </motion.span>
-                            )}
-                        </AnimatePresence>
-                    </div>
-                    <ul className="flex flex-col gap-2">
-                        {features.map((feature, index) => (
-                            <li key={index} className="flex items-center gap-2">
-                                <CheckIcon aria-hidden="true" className="w-5 h-5 text-primary" />
-                                <p className="text-sm md:text-base text-muted-foreground">
-                                    {feature}
-                                </p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-                <div className="p-3 mt- h-auto flex w-full items-center">
-                    <Button
-                        asChild
-                        variant={id === "pro" ? "default" : "tertiary"}
-                        className="w-full hover:scale-100 hover:translate-y-0 shadow-none"
-                    >
-
-                        <Link href={""}>
-                            {buttonText}
-                        </Link>
-                    </Button>
-                </div>
+                <p className="text-sm text-muted-foreground mt-4">
+                    <span className="text-foreground font-medium">Mission : </span>
+                    {project.mission}
+                </p>
             </div>
         </div>
-    )
-};
+    </div>
+);
+
+const ProjectCard = ({ project }: { project: Project }) => (
+    <div className="group w-full rounded-2xl border border-border/60 hover:border-primary/50 p-3 flex flex-col [background-image:linear-gradient(345deg,rgba(255,255,255,0.01)_0%,rgba(255,255,255,0.03)_100%)] transition-colors duration-300">
+        <div className="relative">
+            <ImagePlaceholder className="w-full h-44" />
+            <CategoryBadge category={project.category} />
+        </div>
+        <div className="flex flex-col flex-1 p-3">
+            <div className="flex items-start justify-between gap-2">
+                <h3 className="text-lg font-medium font-heading">
+                    {project.title}
+                </h3>
+                <ArrowUpRightIcon className="w-4 h-4 shrink-0 mt-1 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300" />
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+                {project.description}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+                <StatChip icon={MapPinIcon} label={project.location} />
+                <StatChip icon={RulerIcon} label={project.surface} />
+            </div>
+            <p className="text-xs text-muted-foreground mt-3">
+                <span className="text-foreground/80 font-medium">Mission : </span>
+                {project.mission}
+            </p>
+        </div>
+    </div>
+);
 
 export default Pricing
