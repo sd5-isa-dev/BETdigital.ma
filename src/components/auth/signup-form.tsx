@@ -26,7 +26,7 @@ import Icons from "../global/icons";
 import { FADE_IN_VARIANTS } from "@/constants";
 import { toast } from "sonner";
 import LoadingIcon from "../ui/loading-icon";
-import { OAuthStrategy } from "@clerk/types";
+type OAuthStrategy = "oauth_google" | "oauth_apple";
 
 
 const SignUpForm = () => {

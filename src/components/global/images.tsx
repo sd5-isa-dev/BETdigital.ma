@@ -1,7 +1,5 @@
 import { LucideProps } from "lucide-react";
-import { FileTextIcon } from "@radix-ui/react-icons";
 import { cn } from "../../lib/utils";
-import { BentoCard } from "../ui/bento-grid";
 import Marquee from "../ui/marquee";
 import { AnimatedList } from "../ui/animated-list";
 type IconType = {
